@@ -20,13 +20,14 @@ def consume(consumer):
         print(f"Received message: {message.value().decode('utf-8')}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python consumer.py <topic> <bootstrap_servers>")
+    if len(sys.argv) != 4:
+        print("Usage: python consumer.py <topic> <bootstrap_servers> <num_partitions>")
         sys.exit(1)
 
     topic = sys.argv[1]
     bootstrap_servers = sys.argv[2]
-    create_topic(topic, bootstrap_servers)
+    num_partitions = int(sys.argv[3])
+    create_topic(topic, bootstrap_servers, num_partitions)
     consumer = Consumer({"bootstrap.servers": bootstrap_servers, "group.id": 'group-toad', "auto.offset.reset": "earliest"})
     consumer.subscribe([topic])
-    consume(consumer, topic)
+    consume(consumer)

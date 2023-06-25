@@ -1,7 +1,7 @@
 import sys
 from confluent_kafka.admin import AdminClient, NewTopic
 
-def create_topic(topic, bootstrap_servers):
+def create_topic(topic, bootstrap_servers, num_partitions):
     try:
         admin_client = AdminClient({"bootstrap.servers": bootstrap_servers})
         print("Brokers are valid and accessible.")
@@ -19,7 +19,7 @@ def create_topic(topic, bootstrap_servers):
         "retention.ms": "86400000"
         # Add any additional topic configuration parameters as needed
     }
-    new_topic = NewTopic(topic,config=topic_config)
+    new_topic = NewTopic(topic, num_partitions, config=topic_config)
     futures = admin_client.create_topics([new_topic])
     for topic, future in futures.items():
         try:

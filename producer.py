@@ -11,12 +11,13 @@ def produce(producer, topic):
     producer.flush()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python producer.py <topic> <bootstrap_servers>")
+    if len(sys.argv) != 4:
+        print("Usage: python producer.py <topic> <bootstrap_servers> <num_partitions>")
         sys.exit(1)
 
     topic = sys.argv[1]
     bootstrap_servers = sys.argv[2]
-    create_topic(topic, bootstrap_servers)
+    num_partitions = int(sys.argv[3])
+    create_topic(topic, bootstrap_servers, num_partitions)
     producer = Producer({"bootstrap.servers": bootstrap_servers})
     produce(producer, topic)
